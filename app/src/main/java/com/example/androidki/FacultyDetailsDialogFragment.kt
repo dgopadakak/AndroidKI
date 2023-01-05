@@ -1,5 +1,6 @@
 package com.example.androidki
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
@@ -129,16 +130,17 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setSortId(id: Int): Boolean
     {
         currentIdForSort = id
         if (currentIdForSort == 0)
         {
-            textViewCurrSort.text = "Сортировка по модели"
+            textViewCurrSort.text = "Сортировка по названию"
         }
         else if (currentIdForSort == 1)
         {
-            textViewCurrSort.text = "Сортировка по цвету"
+            textViewCurrSort.text = "Сортировка по кол-ву направлений"
         }
         else if (currentIdForSort == 2)
         {
@@ -146,19 +148,19 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
         }
         else if (currentIdForSort == 3)
         {
-            textViewCurrSort.text = "Сортировка по заводу"
+            textViewCurrSort.text = "Сортировка по e-mail"
         }
         else if (currentIdForSort == 4)
         {
-            textViewCurrSort.text = "Сортировка по дате производства"
+            textViewCurrSort.text = "Сортировка по дате основания"
         }
         else if (currentIdForSort == 5)
         {
-            textViewCurrSort.text = "Сортировка по вместимости"
+            textViewCurrSort.text = "Сортировка по кол-ву студентов"
         }
         else if (currentIdForSort == 6)
         {
-            textViewCurrSort.text = "Сортировка по грузовой ли?"
+            textViewCurrSort.text = "Сортировка по наличию ЗФО"
         }
         else if (currentIdForSort == 7)
         {

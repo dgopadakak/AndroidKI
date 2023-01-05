@@ -318,13 +318,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             toolbar.title = when (sortId)
             {
-                0 -> "$airlineTitle сорт. Модель"
-                1 -> "$airlineTitle сорт. Цвет"
+                0 -> "$airlineTitle сорт. Название"
+                1 -> "$airlineTitle сорт. Кол-во направлений"
                 2 -> "$airlineTitle сорт. №"
-                3 -> "$airlineTitle сорт. Завод"
-                4 -> "$airlineTitle сорт. Дата пр."
-                5 -> "$airlineTitle сорт. Вместимость"
-                6 -> "$airlineTitle сорт. Грузовой"
+                3 -> "$airlineTitle сорт. e-mail"
+                4 -> "$airlineTitle сорт. Дата осн."
+                5 -> "$airlineTitle сорт. Кол-во студентов"
+                6 -> "$airlineTitle сорт. ЗФО"
                 7 -> "$airlineTitle сорт. Описание"
                 else -> airlineTitle
             }

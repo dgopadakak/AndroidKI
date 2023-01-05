@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.androidki.universities.dbWithRoom.UniversityOperatorConverter
+import org.apache.commons.lang3.StringUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -79,18 +80,18 @@ class UniversityOperator
 
         if (sortIndex == 1)
         {
-            val tempArrayListOfTasksConditions: ArrayList<String> = ArrayList()
+            val tempArrayListOfNums: ArrayList<Int> = ArrayList()
             val tempArrayListOfFaculties: ArrayList<Faculty> = ArrayList()
             for (i in universities[universityIndex].listOfFaculties)
             {
-                tempArrayListOfTasksConditions.add(i.directions.lowercase(Locale.ROOT))
+                tempArrayListOfNums.add(StringUtils.countMatches(i.directions, ','))
             }
-            tempArrayListOfTasksConditions.sort()
-            for (i in tempArrayListOfTasksConditions)
+            tempArrayListOfNums.sort()
+            for (i in tempArrayListOfNums)
             {
                 for (j in universities[universityIndex].listOfFaculties)
                 {
-                    if (i == j.directions.lowercase(Locale.ROOT)
+                    if (i == StringUtils.countMatches(j.directions, ',')
                         && !tempArrayListOfFaculties.contains(j))
                     {
                         tempArrayListOfFaculties.add(j)
