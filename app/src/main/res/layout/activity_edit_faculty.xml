@@ -2,221 +2,250 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditFacultyActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutExamName"
+        android:id="@+id/layoutExamNameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textViewExamNameTitle"
+            android:id="@+id/textViewExamNameTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewExamName"
+            app:layout_constraintEnd_toStartOf="@id/editTextExamName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewExamName"
+        <EditText
+            android:id="@+id/editTextExamName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/name_hint"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewExamNameTitle"
+            app:layout_constraintStart_toEndOf="@id/textViewExamNameTitleEdit"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutTeacherName"
+        android:id="@+id/layoutTeacherNameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutExamName">
+        app:layout_constraintTop_toBottomOf="@+id/layoutExamNameEdit">
 
         <TextView
-            android:id="@+id/textViewTeacherNameTitle"
+            android:id="@+id/textViewTeacherNameTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hint"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewTeacherName"
+            app:layout_constraintEnd_toStartOf="@id/editTextTeacherName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewTeacherName"
+        <EditText
+            android:id="@+id/editTextTeacherName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/hint_hint"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewTeacherNameTitle"
+            app:layout_constraintStart_toEndOf="@id/textViewTeacherNameTitleEdit"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutAuditory"
+        android:id="@+id/layoutAuditoryEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTeacherName">
+        app:layout_constraintTop_toBottomOf="@+id/layoutTeacherNameEdit">
 
         <TextView
-            android:id="@+id/textViewAuditoryTitle"
+            android:id="@+id/textViewAuditoryTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/num"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewAuditory"
+            app:layout_constraintEnd_toStartOf="@id/editTextAuditory"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewAuditory"
+        <EditText
+            android:id="@+id/editTextAuditory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:autofillHints=""
+            android:ems="8"
+            android:hint="@string/num_hint"
+            android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewAuditoryTitle"
+            app:layout_constraintStart_toEndOf="@id/textViewAuditoryTitleEdit"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutDate"
+        android:id="@+id/layoutDateEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutAuditory">
+        app:layout_constraintTop_toBottomOf="@+id/layoutAuditoryEdit">
 
         <TextView
-            android:id="@+id/textViewDateTitle"
+            android:id="@+id/textViewDateTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/num_of_participants"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewDate"
+            app:layout_constraintEnd_toStartOf="@id/editTextDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewDate"
+        <EditText
+            android:id="@+id/editTextDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:autofillHints=""
+            android:ems="7"
+            android:hint="@string/num_of_participants_hint"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewDateTitle"
+            app:layout_constraintStart_toEndOf="@id/textViewDateTitleEdit"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutTime"
+        android:id="@+id/layoutTimeEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutDate">
+        app:layout_constraintTop_toBottomOf="@+id/layoutDateEdit">
 
         <TextView
-            android:id="@+id/textViewTimeTitle"
+            android:id="@+id/textViewTimeTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/time_for_solve"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewTime"
+            app:layout_constraintEnd_toStartOf="@id/editTextTime"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewTime"
+        <EditText
+            android:id="@+id/editTextTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:autofillHints=""
+            android:ems="7"
+            android:hint="@string/time_for_solve_hint"
+            android:inputType="date"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewTimeTitle"
+            app:layout_constraintStart_toEndOf="@id/textViewTimeTitleEdit"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutPeople"
+        android:id="@+id/layoutPeopleEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTime">
+        app:layout_constraintTop_toBottomOf="@+id/layoutTimeEdit">
 
         <TextView
-            android:id="@+id/textViewPeopleTitle"
+            android:id="@+id/textViewPeopleTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/max_score"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewPeople"
+            app:layout_constraintEnd_toStartOf="@id/editTextPeople"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewPeople"
+        <EditText
+            android:id="@+id/editTextPeople"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:autofillHints=""
+            android:ems="7"
+            android:hint="@string/max_score_hint"
+            android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewPeopleTitle"
+            app:layout_constraintStart_toEndOf="@id/textViewPeopleTitleEdit"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutAbstract"
+        android:id="@+id/layoutAbstractEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPeople">
+        app:layout_constraintTop_toBottomOf="@+id/layoutPeopleEdit">
 
         <TextView
-            android:id="@+id/textViewAbstractTitle"
+            android:id="@+id/textViewAbstractTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/is_complicated"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/textViewAbstract"
+            app:layout_constraintEnd_toStartOf="@id/editTextAbstract"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewAbstract"
+        <EditText
+            android:id="@+id/editTextAbstract"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:autofillHints=""
+            android:ems="7"
+            android:hint="@string/is_complicated_hint"
+            android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/textViewAbstractTitle"
+            app:layout_constraintStart_toEndOf="@id/textViewAbstractTitleEdit"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutComment"
+        android:id="@+id/layoutCommentEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -224,69 +253,45 @@
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutAbstract">
+        app:layout_constraintTop_toBottomOf="@+id/layoutAbstractEdit">
 
         <TextView
-            android:id="@+id/textViewCommentTitle"
+            android:id="@+id/textViewCommentTitleEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/condition"
-            app:layout_constraintBottom_toTopOf="@id/textViewComment"
+            app:layout_constraintBottom_toTopOf="@id/editTextComment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewComment"
+        <EditText
+            android:id="@+id/editTextComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:width="250dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/condition_hint"
+            android:inputType="textPersonName"
+            android:lines="4"
             android:maxWidth="250dp"
             android:maxLines="4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCommentTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewCommentTitleEdit" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/button_details_ok"
+        android:id="@+id/button_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="@string/button_ok"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_details_delete" />
-
-    <Button
-        android:id="@+id/button_details_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="25dp"
-        android:text="@string/button_del"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentSort" />
-
-    <Button
-        android:id="@+id/button_details_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="5dp"
-        android:text="@string/button_edit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCurrentSort" />
-
-    <TextView
-        android:id="@+id/textViewCurrentSort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutComment" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutCommentEdit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

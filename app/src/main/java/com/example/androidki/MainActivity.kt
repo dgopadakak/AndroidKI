@@ -14,12 +14,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidki.airlines.Airline
-import com.example.androidki.airlines.AirlineOperator
-import com.example.androidki.airlines.Plane
-import com.example.androidki.airlines.dbWithRoom.AirlineOperatorDao
-import com.example.androidki.airlines.dbWithRoom.App
-import com.example.androidki.airlines.dbWithRoom.AppDatabase
+import com.example.androidki.universities.University
+import com.example.androidki.universities.UniversityOperator
+import com.example.androidki.universities.Faculty
+import com.example.androidki.universities.dbWithRoom.UniversityOperatorDao
+import com.example.androidki.universities.dbWithRoom.App
+import com.example.androidki.universities.dbWithRoom.AppDatabase
 import com.example.androidki.databinding.ActivityMainBinding
 import com.example.androidki.forRecyclerView.CustomRecyclerAdapterForExams
 import com.example.androidki.forRecyclerView.RecyclerItemClickListener
@@ -33,7 +33,7 @@ import java.io.PrintWriter
 import java.net.Socket
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    PlaneDetailsDialogFragment.OnInputListenerSortId
+    FacultyDetailsDialogFragment.OnInputListenerSortId
 {
     private val gsonBuilder = GsonBuilder()
     private val gson: Gson = gsonBuilder.create()
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var startTime: Long = 0
 
     private lateinit var db: AppDatabase
-    private lateinit var roDao: AirlineOperatorDao
+    private lateinit var roDao: UniversityOperatorDao
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var nv: NavigationView
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerViewPlanes: RecyclerView
 
-    private var ao: AirlineOperator = AirlineOperator()
+    private var ao: UniversityOperator = UniversityOperator()
     private var currentAirlineID: Int = -1
     private var currentPlaneID: Int = -1
     private var waitingForUpdate: Boolean = false
@@ -90,8 +90,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         currentPlaneID = position
                         val toast = Toast.makeText(
                             applicationContext,
-                            "Вместимость: ${ao.getPlane(currentAirlineID, currentPlaneID)
-                                .seats}",
+                            "Студентов: ${ao.getFaculty(currentAirlineID, currentPlaneID)
+                                .students}",
                             Toast.LENGTH_SHORT
                         )
                         toast.show()
@@ -99,16 +99,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     override fun onItemLongClick(view: View, position: Int)
                     {
                         currentPlaneID = position
-                        val examDetails = PlaneDetailsDialogFragment()
-                        val tempExam = ao.getPlane(currentAirlineID, currentPlaneID)
+                        val examDetails = FacultyDetailsDialogFragment()
+                        val tempExam = ao.getFaculty(currentAirlineID, currentPlaneID)
                         val bundle = Bundle()
-                        bundle.putString("model", tempExam.model)
-                        bundle.putString("color", tempExam.color)
+                        bundle.putString("model", tempExam.name)
+                        bundle.putString("color", tempExam.directions)
                         bundle.putString("number", tempExam.num.toString())
-                        bundle.putString("factory", tempExam.factory)
-                        bundle.putString("productionDate", tempExam.productionDate)
-                        bundle.putString("seats", tempExam.seats.toString())
-                        bundle.putString("isCargo", tempExam.isCargo.toString())
+                        bundle.putString("factory", tempExam.email)
+                        bundle.putString("productionDate", tempExam.dateOfFoundation)
+                        bundle.putString("seats", tempExam.students.toString())
+                        bundle.putString("isCargo", tempExam.isHaveDistanceLearning.toString())
                         bundle.putString("comment", tempExam.comment)
                         bundle.putString("connection", connectionStage.toString())
                         examDetails.arguments = bundle
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (id == R.id.action_add)
         {
             val intent = Intent()
-            intent.setClass(this, EditPlaneActivity::class.java)
+            intent.setClass(this, EditFacultyActivity::class.java)
             intent.putExtra("action", 1)
             startActivityForResult(intent, 1)
         }
@@ -224,10 +224,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         connectionStage = -1
                         activity.runOnUiThread { progressBar.visibility = View.INVISIBLE }
                         ao = roDao.getById(1)
-                        for (i in 0 until ao.getAirlines().size)
+                        for (i in 0 until ao.getUniversities().size)
                         {
                             activity.runOnUiThread { nv.menu.add(0, i, 0,
-                                ao.getAirlines()[i].name as CharSequence) }
+                                ao.getUniversities()[i].name as CharSequence) }
                         }
                     }
                 }
@@ -241,8 +241,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         private fun processingInputStream(text: String)
         {
-            roDao.delete(AirlineOperator())
-            val tempGo: AirlineOperator = gson.fromJson(text, AirlineOperator::class.java)
+            roDao.delete(UniversityOperator())
+            val tempGo: UniversityOperator = gson.fromJson(text, UniversityOperator::class.java)
             roDao.insert(tempGo)
 
             if (connectionStage != 1)
@@ -255,17 +255,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             progressBar.visibility = View.INVISIBLE
-            for (i in 0 until ao.getAirlines().size)
+            for (i in 0 until ao.getUniversities().size)
             {
                 nv.menu.removeItem(i)
             }
-            val tempArrayListAirlines: ArrayList<Airline> = tempGo.getAirlines()
-            ao.setAirlines(tempArrayListAirlines)
-            for (i in 0 until tempArrayListAirlines.size)
+            val tempArrayListUniversities: ArrayList<University> = tempGo.getUniversities()
+            ao.setUniversities(tempArrayListUniversities)
+            for (i in 0 until tempArrayListUniversities.size)
             {
                 nv.menu.add(
                     0, i, 0,
-                    tempArrayListAirlines[i].name as CharSequence
+                    tempArrayListUniversities[i].name as CharSequence
                 )
             }
             if (waitingForUpdate || connectionStage == -1)
@@ -274,8 +274,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (currentAirlineID != -1)
                 {
                     recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
-                        ao.getPlaneModels(currentAirlineID),
-                        ao.getPlanesNumbers(currentAirlineID)
+                        ao.getFacultiesNames(currentAirlineID)
                     )
                 }
             }
@@ -297,8 +296,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         invalidateOptionsMenu()
         currentAirlineID = item.itemId
         recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
-            ao.getPlaneModels(currentAirlineID),
-            ao.getPlanesNumbers(currentAirlineID))
+            ao.getFacultiesNames(currentAirlineID))
         recyclerViewPlanes.visibility = View.VISIBLE
         return true
     }
@@ -313,7 +311,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         if (sortId > -1 && sortId < 8)      // Сортировка
         {
-            ao.sortPlanes(currentAirlineID, sortId)
+            ao.sortFaculties(currentAirlineID, sortId)
             if (connectionStage == 1)
             {
                 connection.sendDataToServer("u" + gson.toJson(ao))
@@ -334,31 +332,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (sortId == 8)        // Удаление
         {
             val manager: FragmentManager = supportFragmentManager
-            val myDialogFragmentDelPlane = MyDialogFragmentDelPlane()
+            val myDialogFragmentDelFaculty = MyDialogFragmentDelFaculty()
             val bundle = Bundle()
-            bundle.putString("name", ao.getPlane(currentAirlineID, currentPlaneID).model)
-            myDialogFragmentDelPlane.arguments = bundle
-            myDialogFragmentDelPlane.show(manager, "myDialog")
+            bundle.putString("name", ao.getFaculty(currentAirlineID, currentPlaneID).name)
+            myDialogFragmentDelFaculty.arguments = bundle
+            myDialogFragmentDelFaculty.show(manager, "myDialog")
         }
         if (sortId == 9)        // Изменение
         {
-            val tempTask = ao.getPlane(currentAirlineID, currentPlaneID)
+            val tempTask = ao.getFaculty(currentAirlineID, currentPlaneID)
             val intent = Intent()
-            intent.setClass(this, EditPlaneActivity::class.java)
+            intent.setClass(this, EditFacultyActivity::class.java)
             intent.putExtra("action", 2)
-            intent.putExtra("model", tempTask.model)
-            intent.putExtra("color", tempTask.color)
+            intent.putExtra("model", tempTask.name)
+            intent.putExtra("color", tempTask.directions)
             intent.putExtra("number", tempTask.num.toString())
-            intent.putExtra("factory", tempTask.factory)
-            intent.putExtra("productionDate", tempTask.productionDate)
-            intent.putExtra("seats", tempTask.seats.toString())
-            intent.putExtra("isCargo", tempTask.isCargo.toString())
+            intent.putExtra("factory", tempTask.email)
+            intent.putExtra("productionDate", tempTask.dateOfFoundation)
+            intent.putExtra("seats", tempTask.students.toString())
+            intent.putExtra("isCargo", tempTask.isHaveDistanceLearning.toString())
             intent.putExtra("comment", tempTask.comment)
             startActivityForResult(intent, 1)
         }
         recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
-            ao.getPlaneModels(currentAirlineID),
-            ao.getPlanesNumbers(currentAirlineID))
+            ao.getFacultiesNames(currentAirlineID))
     }
 
     @Deprecated("Deprecated in Java")
@@ -376,13 +373,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val people = data.getSerializableExtra("seats") as Int
             val abstract = data.getSerializableExtra("isCargo") as Int
             val comment = data.getSerializableExtra("comment") as String
-            val tempPlane = Plane(examName, teacherName, auditory, date, time, people
+            val tempFaculty = Faculty(examName, teacherName, auditory, date, time, people
                 , abstract, comment)
-            val tempPlaneJSON: String = gson.toJson(tempPlane)
+            val tempPlaneJSON: String = gson.toJson(tempFaculty)
 
             if (action == 1)
             {
-                val tempStringToSend = "a${ao.getAirlines()[currentAirlineID].name}##$tempPlaneJSON"
+                val tempStringToSend = "a${ao.getUniversities()[currentAirlineID].name}##$tempPlaneJSON"
                 connection.sendDataToServer(tempStringToSend)
                 waitingForUpdate = true
             }

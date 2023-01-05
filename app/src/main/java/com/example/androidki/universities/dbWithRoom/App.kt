@@ -1,4 +1,4 @@
-package com.example.androidki.airlines.dbWithRoom
+package com.example.androidki.universities.dbWithRoom
 
 import android.app.Application
 import androidx.room.Room.databaseBuilder

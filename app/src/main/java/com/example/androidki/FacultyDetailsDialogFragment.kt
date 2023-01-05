@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 
-class PlaneDetailsDialogFragment: android.app.DialogFragment()
+class FacultyDetailsDialogFragment: android.app.DialogFragment()
 {
     private val exceptionTag = "PharmacyDetailsDialogFragment"
 
@@ -49,7 +49,7 @@ class PlaneDetailsDialogFragment: android.app.DialogFragment()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View
     {
-        val view: View = inflater!!.inflate(R.layout.plane_details, container, false)
+        val view: View = inflater!!.inflate(R.layout.faculty_details, container, false)
         textViewModelTitle = view.findViewById(R.id.textViewExamNameTitle)
         textViewModel = view.findViewById(R.id.textViewExamName)
         textViewColorTitle = view.findViewById(R.id.textViewTeacherNameTitle)

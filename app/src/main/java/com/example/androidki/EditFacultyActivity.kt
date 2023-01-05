@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EditPlaneActivity : AppCompatActivity()
+class EditFacultyActivity : AppCompatActivity()
 {
     private lateinit var editModel: EditText
     private lateinit var editColor: EditText
@@ -24,7 +24,7 @@ class EditPlaneActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_plane)
+        setContentView(R.layout.activity_edit_faculty)
 
         editModel = findViewById(R.id.editTextExamName)
         editColor = findViewById(R.id.editTextTeacherName)
@@ -71,7 +71,7 @@ class EditPlaneActivity : AppCompatActivity()
             {
                 if (isDateValid(editProductionDate.text.toString().trim()))
                 {
-                    val intent = Intent(this@EditPlaneActivity,
+                    val intent = Intent(this@EditFacultyActivity,
                         MainActivity::class.java)
                     intent.putExtra("action",    action)
                     intent.putExtra("model",      editModel.text.toString().trim())

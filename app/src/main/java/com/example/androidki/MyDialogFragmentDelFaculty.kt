@@ -5,7 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 
-class MyDialogFragmentDelPlane: DialogFragment()
+class MyDialogFragmentDelFaculty: DialogFragment()
 {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog
     {

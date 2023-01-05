@@ -4,19 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidki.R
 
-class CustomRecyclerAdapterForExams(private val models: List<String>,
-                                    private val numbers: List<Int>):
+class CustomRecyclerAdapterForExams(private val names: List<String>):
     RecyclerView.Adapter<CustomRecyclerAdapterForExams.MyViewHolder>()
 {
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
-        val layoutItem: ConstraintLayout = itemView.findViewById(R.id.layoutItem)
-        val textViewNum: TextView = itemView.findViewById(R.id.textViewNumItem)
-        val textViewModel: TextView = itemView.findViewById(R.id.textViewModelItem)
+        val textViewName: TextView = itemView.findViewById(R.id.textViewNumItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder
@@ -28,9 +24,8 @@ class CustomRecyclerAdapterForExams(private val models: List<String>,
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int)
     {
-        holder.textViewModel.text = models[position]
-        holder.textViewNum.text = numbers[position].toString()
+        holder.textViewName.text = names[position]
     }
 
-    override fun getItemCount() = models.size
+    override fun getItemCount() = names.size
 }
