@@ -107,7 +107,7 @@ class EditFacultyActivity : AppCompatActivity()
             {
                 val toast = Toast.makeText(
                     applicationContext,
-                    "Поле \"${R.string.is_complicated}\" поддерживает только " +
+                    "Поле \"${getString(R.string.is_complicated)}\" поддерживает только " +
                             "значения \"да\" или \"нет\"!",
                     Toast.LENGTH_SHORT)
                 toast.show()
