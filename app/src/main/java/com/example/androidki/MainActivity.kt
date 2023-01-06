@@ -52,9 +52,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerViewPlanes: RecyclerView
 
-    private var ao: UniversityOperator = UniversityOperator()
-    private var currentAirlineID: Int = -1
-    private var currentPlaneID: Int = -1
+    private var unO: UniversityOperator = UniversityOperator()
+    private var currentUniversityID: Int = -1
+    private var currentFacultyID: Int = -1
     private var waitingForUpdate: Boolean = false
     private lateinit var airlineTitle: String
 
@@ -87,10 +87,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 {
                     override fun onItemClick(view: View, position: Int)
                     {
-                        currentPlaneID = position
+                        currentFacultyID = position
                         val toast = Toast.makeText(
                             applicationContext,
-                            "Студентов: ${ao.getFaculty(currentAirlineID, currentPlaneID)
+                            "Студентов: ${unO.getFaculty(currentUniversityID, currentFacultyID)
                                 .students}",
                             Toast.LENGTH_SHORT
                         )
@@ -98,17 +98,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                     override fun onItemLongClick(view: View, position: Int)
                     {
-                        currentPlaneID = position
+                        currentFacultyID = position
                         val examDetails = FacultyDetailsDialogFragment()
-                        val tempExam = ao.getFaculty(currentAirlineID, currentPlaneID)
+                        val tempExam = unO.getFaculty(currentUniversityID, currentFacultyID)
                         val bundle = Bundle()
-                        bundle.putString("model", tempExam.name)
-                        bundle.putString("color", tempExam.directions)
+                        bundle.putString("name", tempExam.name)
+                        bundle.putString("directions", tempExam.directions)
                         bundle.putString("number", tempExam.num.toString())
-                        bundle.putString("factory", tempExam.email)
-                        bundle.putString("productionDate", tempExam.dateOfFoundation)
-                        bundle.putString("seats", tempExam.students.toString())
-                        bundle.putString("isCargo", tempExam.isHaveDistanceLearning.toString())
+                        bundle.putString("email", tempExam.email)
+                        bundle.putString("dateOfFoundation", tempExam.dateOfFoundation)
+                        bundle.putString("students", tempExam.students.toString())
+                        bundle.putString("isHaveDistanceLearning", tempExam.
+                        isHaveDistanceLearning.toString())
                         bundle.putString("comment", tempExam.comment)
                         bundle.putString("connection", connectionStage.toString())
                         examDetails.arguments = bundle
@@ -133,7 +134,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean
     {
-        if (currentAirlineID != -1 && connectionStage == 1)
+        if (currentUniversityID != -1 && connectionStage == 1)
         {
             menu.getItem(0).isVisible = true
         }
@@ -223,11 +224,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             toast.show() }
                         connectionStage = -1
                         activity.runOnUiThread { progressBar.visibility = View.INVISIBLE }
-                        ao = roDao.getById(1)
-                        for (i in 0 until ao.getUniversities().size)
+                        unO = roDao.getById(1)
+                        for (i in 0 until unO.getUniversities().size)
                         {
                             activity.runOnUiThread { nv.menu.add(0, i, 0,
-                                ao.getUniversities()[i].name as CharSequence) }
+                                unO.getUniversities()[i].name as CharSequence) }
                         }
                     }
                 }
@@ -255,12 +256,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             progressBar.visibility = View.INVISIBLE
-            for (i in 0 until ao.getUniversities().size)
+            for (i in 0 until unO.getUniversities().size)
             {
                 nv.menu.removeItem(i)
             }
             val tempArrayListUniversities: ArrayList<University> = tempGo.getUniversities()
-            ao.setUniversities(tempArrayListUniversities)
+            unO.setUniversities(tempArrayListUniversities)
             for (i in 0 until tempArrayListUniversities.size)
             {
                 nv.menu.add(
@@ -271,10 +272,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (waitingForUpdate || connectionStage == -1)
             {
                 waitingForUpdate = false
-                if (currentAirlineID != -1)
+                if (currentUniversityID != -1)
                 {
                     recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
-                        ao.getFacultiesNames(currentAirlineID)
+                        unO.getFacultiesNames(currentUniversityID)
                     )
                 }
             }
@@ -294,16 +295,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         airlineTitle = "${item.title}"
         toolbar.title = airlineTitle
         invalidateOptionsMenu()
-        currentAirlineID = item.itemId
+        currentUniversityID = item.itemId
         recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
-            ao.getFacultiesNames(currentAirlineID))
+            unO.getFacultiesNames(currentUniversityID))
         recyclerViewPlanes.visibility = View.VISIBLE
         return true
     }
 
     fun delTask()
     {
-        connection.sendDataToServer("d$currentAirlineID,$currentPlaneID")
+        connection.sendDataToServer("d$currentUniversityID,$currentFacultyID")
         waitingForUpdate = true
     }
 
@@ -311,10 +312,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         if (sortId > -1 && sortId < 8)      // Сортировка
         {
-            ao.sortFaculties(currentAirlineID, sortId)
+            unO.sortFaculties(currentUniversityID, sortId)
             if (connectionStage == 1)
             {
-                connection.sendDataToServer("u" + gson.toJson(ao))
+                connection.sendDataToServer("u" + gson.toJson(unO))
             }
             toolbar.title = when (sortId)
             {
@@ -334,28 +335,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val manager: FragmentManager = supportFragmentManager
             val myDialogFragmentDelFaculty = MyDialogFragmentDelFaculty()
             val bundle = Bundle()
-            bundle.putString("name", ao.getFaculty(currentAirlineID, currentPlaneID).name)
+            bundle.putString("name", unO.getFaculty(currentUniversityID, currentFacultyID).name)
             myDialogFragmentDelFaculty.arguments = bundle
             myDialogFragmentDelFaculty.show(manager, "myDialog")
         }
         if (sortId == 9)        // Изменение
         {
-            val tempTask = ao.getFaculty(currentAirlineID, currentPlaneID)
+            val tempTask = unO.getFaculty(currentUniversityID, currentFacultyID)
             val intent = Intent()
             intent.setClass(this, EditFacultyActivity::class.java)
             intent.putExtra("action", 2)
-            intent.putExtra("model", tempTask.name)
-            intent.putExtra("color", tempTask.directions)
+            intent.putExtra("name", tempTask.name)
+            intent.putExtra("directions", tempTask.directions)
             intent.putExtra("number", tempTask.num.toString())
-            intent.putExtra("factory", tempTask.email)
-            intent.putExtra("productionDate", tempTask.dateOfFoundation)
-            intent.putExtra("seats", tempTask.students.toString())
-            intent.putExtra("isCargo", tempTask.isHaveDistanceLearning.toString())
+            intent.putExtra("email", tempTask.email)
+            intent.putExtra("dateOfFoundation", tempTask.dateOfFoundation)
+            intent.putExtra("students", tempTask.students.toString())
+            intent.putExtra("isHaveDistanceLearning", tempTask.isHaveDistanceLearning.toString())
             intent.putExtra("comment", tempTask.comment)
             startActivityForResult(intent, 1)
         }
         recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
-            ao.getFacultiesNames(currentAirlineID))
+            unO.getFacultiesNames(currentUniversityID))
     }
 
     @Deprecated("Deprecated in Java")
@@ -365,13 +366,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (resultCode == RESULT_OK)
         {
             val action = data?.getSerializableExtra("action") as Int
-            val examName = data.getSerializableExtra("model") as String
-            val teacherName = data.getSerializableExtra("color") as String
+            val examName = data.getSerializableExtra("name") as String
+            val teacherName = data.getSerializableExtra("directions") as String
             val auditory = data.getSerializableExtra("number") as Int
-            val date = data.getSerializableExtra("factory") as String
-            val time = data.getSerializableExtra("productionDate") as String
-            val people = data.getSerializableExtra("seats") as Int
-            val abstract = data.getSerializableExtra("isCargo") as Int
+            val date = data.getSerializableExtra("email") as String
+            val time = data.getSerializableExtra("dateOfFoundation") as String
+            val people = data.getSerializableExtra("students") as Int
+            val abstract = data.getSerializableExtra("isHaveDistanceLearning") as Int
             val comment = data.getSerializableExtra("comment") as String
             val tempFaculty = Faculty(examName, teacherName, auditory, date, time, people
                 , abstract, comment)
@@ -379,13 +380,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             if (action == 1)
             {
-                val tempStringToSend = "a${ao.getUniversities()[currentAirlineID].name}##$tempPlaneJSON"
+                val tempStringToSend = "a${unO.getUniversities()[currentUniversityID].name}#" +
+                        "#$tempPlaneJSON"
                 connection.sendDataToServer(tempStringToSend)
                 waitingForUpdate = true
             }
             if (action == 2)
             {
-                val tempStringToSend = "e$currentAirlineID,$currentPlaneID##$tempPlaneJSON"
+                val tempStringToSend = "e$currentUniversityID,$currentFacultyID##$tempPlaneJSON"
                 connection.sendDataToServer(tempStringToSend)
                 waitingForUpdate = true
             }

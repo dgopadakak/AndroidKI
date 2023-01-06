@@ -24,20 +24,20 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
 
     lateinit var onInputListenerSortId: OnInputListenerSortId
 
-    private lateinit var textViewModelTitle: TextView
-    private lateinit var textViewModel: TextView
-    private lateinit var textViewColorTitle: TextView
-    private lateinit var textViewColor: TextView
+    private lateinit var textViewNameTitle: TextView
+    private lateinit var textViewName: TextView
+    private lateinit var textViewDirectionsTitle: TextView
+    private lateinit var textViewDirections: TextView
     private lateinit var textViewNumTitle: TextView
     private lateinit var textViewNum: TextView
-    private lateinit var textViewFactoryTitle: TextView
-    private lateinit var textViewFactory: TextView
-    private lateinit var textViewProductionDateTitle: TextView
-    private lateinit var textViewProductionDate: TextView
-    private lateinit var textViewSeatsTitle: TextView
-    private lateinit var textViewSeats: TextView
-    private lateinit var textViewIsCargoTitle: TextView
-    private lateinit var textViewIsCargo: TextView
+    private lateinit var textViewEmailTitle: TextView
+    private lateinit var textViewEmail: TextView
+    private lateinit var textViewDateOfFoundationTitle: TextView
+    private lateinit var textViewDateOfFoundation: TextView
+    private lateinit var textViewStudentsTitle: TextView
+    private lateinit var textViewStudents: TextView
+    private lateinit var textViewIsHaveDistanceLearningTitle: TextView
+    private lateinit var textViewIsHaveDistanceLearning: TextView
     private lateinit var textViewCommentTitle: TextView
     private lateinit var textViewComment: TextView
     private lateinit var buttonDel: Button
@@ -51,20 +51,20 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
                               savedInstanceState: Bundle?): View
     {
         val view: View = inflater!!.inflate(R.layout.faculty_details, container, false)
-        textViewModelTitle = view.findViewById(R.id.textViewExamNameTitle)
-        textViewModel = view.findViewById(R.id.textViewExamName)
-        textViewColorTitle = view.findViewById(R.id.textViewTeacherNameTitle)
-        textViewColor = view.findViewById(R.id.textViewTeacherName)
+        textViewNameTitle = view.findViewById(R.id.textViewExamNameTitle)
+        textViewName = view.findViewById(R.id.textViewExamName)
+        textViewDirectionsTitle = view.findViewById(R.id.textViewTeacherNameTitle)
+        textViewDirections = view.findViewById(R.id.textViewTeacherName)
         textViewNumTitle = view.findViewById(R.id.textViewAuditoryTitle)
         textViewNum = view.findViewById(R.id.textViewAuditory)
-        textViewFactoryTitle = view.findViewById(R.id.textViewDateTitle)
-        textViewFactory = view.findViewById(R.id.textViewDate)
-        textViewProductionDateTitle = view.findViewById(R.id.textViewTimeTitle)
-        textViewProductionDate = view.findViewById(R.id.textViewTime)
-        textViewSeatsTitle = view.findViewById(R.id.textViewPeopleTitle)
-        textViewSeats = view.findViewById(R.id.textViewPeople)
-        textViewIsCargoTitle = view.findViewById(R.id.textViewAbstractTitle)
-        textViewIsCargo = view.findViewById(R.id.textViewAbstract)
+        textViewEmailTitle = view.findViewById(R.id.textViewDateTitle)
+        textViewEmail = view.findViewById(R.id.textViewDate)
+        textViewDateOfFoundationTitle = view.findViewById(R.id.textViewTimeTitle)
+        textViewDateOfFoundation = view.findViewById(R.id.textViewTime)
+        textViewStudentsTitle = view.findViewById(R.id.textViewPeopleTitle)
+        textViewStudents = view.findViewById(R.id.textViewPeople)
+        textViewIsHaveDistanceLearningTitle = view.findViewById(R.id.textViewAbstractTitle)
+        textViewIsHaveDistanceLearning = view.findViewById(R.id.textViewAbstract)
         textViewCommentTitle = view.findViewById(R.id.textViewCommentTitle)
         textViewComment = view.findViewById(R.id.textViewComment)
         buttonDel = view.findViewById(R.id.button_details_delete)
@@ -72,20 +72,20 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
         buttonOk = view.findViewById(R.id.button_details_ok)
         textViewCurrSort = view.findViewById(R.id.textViewCurrentSort)
 
-        textViewModelTitle.setOnLongClickListener { setSortId(0) }
-        textViewModel.setOnLongClickListener { setSortId(0) }
-        textViewColorTitle.setOnLongClickListener { setSortId(1) }
-        textViewColor.setOnLongClickListener { setSortId(1) }
+        textViewNameTitle.setOnLongClickListener { setSortId(0) }
+        textViewName.setOnLongClickListener { setSortId(0) }
+        textViewDirectionsTitle.setOnLongClickListener { setSortId(1) }
+        textViewDirections.setOnLongClickListener { setSortId(1) }
         textViewNumTitle.setOnLongClickListener { setSortId(2) }
         textViewNum.setOnLongClickListener { setSortId(2) }
-        textViewFactoryTitle.setOnLongClickListener { setSortId(3) }
-        textViewFactory.setOnLongClickListener { setSortId(3) }
-        textViewProductionDateTitle.setOnLongClickListener { setSortId(4) }
-        textViewProductionDate.setOnLongClickListener { setSortId(4) }
-        textViewSeatsTitle.setOnLongClickListener { setSortId(5) }
-        textViewSeats.setOnLongClickListener { setSortId(5) }
-        textViewIsCargoTitle.setOnLongClickListener { setSortId(6) }
-        textViewIsCargo.setOnLongClickListener { setSortId(6) }
+        textViewEmailTitle.setOnLongClickListener { setSortId(3) }
+        textViewEmail.setOnLongClickListener { setSortId(3) }
+        textViewDateOfFoundationTitle.setOnLongClickListener { setSortId(4) }
+        textViewDateOfFoundation.setOnLongClickListener { setSortId(4) }
+        textViewStudentsTitle.setOnLongClickListener { setSortId(5) }
+        textViewStudents.setOnLongClickListener { setSortId(5) }
+        textViewIsHaveDistanceLearningTitle.setOnLongClickListener { setSortId(6) }
+        textViewIsHaveDistanceLearning.setOnLongClickListener { setSortId(6) }
         textViewCommentTitle.setOnLongClickListener { setSortId(7) }
         textViewComment.setOnLongClickListener { setSortId(7) }
 
@@ -94,19 +94,19 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
         buttonOk.setOnClickListener { returnIdForSort() }
 
         val arguments: Bundle = getArguments()
-        textViewModel.text = arguments.getString("model")
-        textViewColor.text = arguments.getString("color")
+        textViewName.text = arguments.getString("name")
+        textViewDirections.text = arguments.getString("directions")
         textViewNum.text = arguments.getString("number")
-        textViewFactory.text = arguments.getString("factory")
-        textViewProductionDate.text = arguments.getString("productionDate")
-        textViewSeats.text = arguments.getString("seats")
-        if (arguments.getString("isCargo") == "1")
+        textViewEmail.text = arguments.getString("email")
+        textViewDateOfFoundation.text = arguments.getString("dateOfFoundation")
+        textViewStudents.text = arguments.getString("students")
+        if (arguments.getString("isHaveDistanceLearning") == "1")
         {
-            textViewIsCargo.text = "да"
+            textViewIsHaveDistanceLearning.text = "да"
         }
         else
         {
-            textViewIsCargo.text = "нет"
+            textViewIsHaveDistanceLearning.text = "нет"
         }
         textViewComment.text = arguments.getString("comment")
         if (arguments.getString("connection") != "1")

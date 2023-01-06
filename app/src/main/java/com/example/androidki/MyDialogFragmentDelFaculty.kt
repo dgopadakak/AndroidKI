@@ -10,11 +10,11 @@ class MyDialogFragmentDelFaculty: DialogFragment()
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog
     {
         val arguments: Bundle? = arguments
-        val planeName = arguments?.getString("name")
+        val facultyName = arguments?.getString("name")
         val builder = AlertDialog.Builder(activity)
-        builder.setMessage("Будет удален самолет: $planeName")
+        builder.setMessage("Будет удален факультет: $facultyName")
             .setTitle("Внимание!")
-            .setPositiveButton("Продолжить"
+            .setPositiveButton("Ок"
             ) { _, _ -> (activity as MainActivity?)?.delTask() }
             .setNegativeButton("Отмена") { _, _ -> }
         return builder.create()

@@ -12,13 +12,13 @@ import java.util.*
 
 class EditFacultyActivity : AppCompatActivity()
 {
-    private lateinit var editModel: EditText
-    private lateinit var editColor: EditText
+    private lateinit var editName: EditText
+    private lateinit var editDirections: EditText
     private lateinit var editNumber: EditText
-    private lateinit var editFactory: EditText
-    private lateinit var editProductionDate: EditText
-    private lateinit var editSeats: EditText
-    private lateinit var editIsCargo: EditText
+    private lateinit var editEmail: EditText
+    private lateinit var editDateOfFoundation: EditText
+    private lateinit var editStudents: EditText
+    private lateinit var editIsHaveDistanceLearning: EditText
     private lateinit var editComment: EditText
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -26,13 +26,13 @@ class EditFacultyActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_faculty)
 
-        editModel = findViewById(R.id.editTextExamName)
-        editColor = findViewById(R.id.editTextTeacherName)
+        editName = findViewById(R.id.editTextExamName)
+        editDirections = findViewById(R.id.editTextTeacherName)
         editNumber = findViewById(R.id.editTextAuditory)
-        editFactory = findViewById(R.id.editTextDate)
-        editProductionDate = findViewById(R.id.editTextTime)
-        editSeats = findViewById(R.id.editTextPeople)
-        editIsCargo = findViewById(R.id.editTextAbstract)
+        editEmail = findViewById(R.id.editTextDate)
+        editDateOfFoundation = findViewById(R.id.editTextTime)
+        editStudents = findViewById(R.id.editTextPeople)
+        editIsHaveDistanceLearning = findViewById(R.id.editTextAbstract)
         editComment = findViewById(R.id.editTextComment)
 
         val action = intent.getSerializableExtra("action") as Int
@@ -41,19 +41,20 @@ class EditFacultyActivity : AppCompatActivity()
 
         if (action == 2)
         {
-            editModel.setText(intent.getSerializableExtra("model") as String)
-            editColor.setText(intent.getSerializableExtra("color") as String)
+            editName.setText(intent.getSerializableExtra("name") as String)
+            editDirections.setText(intent.getSerializableExtra("directions") as String)
             editNumber.setText(intent.getSerializableExtra("number") as String)
-            editFactory.setText(intent.getSerializableExtra("factory") as String)
-            editProductionDate.setText(intent.getSerializableExtra("productionDate") as String)
-            editSeats.setText(intent.getSerializableExtra("seats") as String)
-            if (intent.getSerializableExtra("isCargo") as String == "1")
+            editEmail.setText(intent.getSerializableExtra("email") as String)
+            editDateOfFoundation.setText(intent.getSerializableExtra("dateOfFoundation")
+                    as String)
+            editStudents.setText(intent.getSerializableExtra("students") as String)
+            if (intent.getSerializableExtra("isHaveDistanceLearning") as String == "1")
             {
-                editIsCargo.setText("да")
+                editIsHaveDistanceLearning.setText("да")
             }
             else
             {
-                editIsCargo.setText("нет")
+                editIsHaveDistanceLearning.setText("нет")
             }
             editComment.setText(intent.getSerializableExtra("comment") as String)
         }
@@ -61,32 +62,33 @@ class EditFacultyActivity : AppCompatActivity()
 
     private fun confirmChanges(action: Int)
     {
-        if (editModel.text.toString() != "" && editColor.text.toString() != ""
-            && editNumber.text.toString() != "" && editFactory.text.toString() != ""
-            && editProductionDate.text.toString() != "" && editSeats.text.toString() != ""
-            && editIsCargo.text.toString() != "")
+        if (editName.text.toString() != "" && editDirections.text.toString() != ""
+            && editNumber.text.toString() != "" && editEmail.text.toString() != ""
+            && editDateOfFoundation.text.toString() != "" && editStudents.text.toString() != ""
+            && editIsHaveDistanceLearning.text.toString() != "")
         {
-            if (editIsCargo.text.toString().trim().lowercase(Locale.ROOT) == "да"
-                || editIsCargo.text.toString().trim().lowercase(Locale.ROOT) == "нет")
+            if (editIsHaveDistanceLearning.text.toString().trim().lowercase(Locale.ROOT) == "да"
+                || editIsHaveDistanceLearning.text.toString().trim()
+                    .lowercase(Locale.ROOT) == "нет")
             {
-                if (isDateValid(editProductionDate.text.toString().trim()))
+                if (isDateValid(editDateOfFoundation.text.toString().trim()))
                 {
                     val intent = Intent(this@EditFacultyActivity,
                         MainActivity::class.java)
-                    intent.putExtra("action",    action)
-                    intent.putExtra("model",      editModel.text.toString().trim())
-                    intent.putExtra("color",   editColor.text.toString().trim())
-                    intent.putExtra("number",    editNumber.text.toString().trim().toInt())
-                    intent.putExtra("factory",  editFactory.text.toString().trim())
-                    intent.putExtra("productionDate", editProductionDate.text.toString().trim())
-                    intent.putExtra("seats",   editSeats.text.toString().trim().toInt())
-                    if (editIsCargo.text.toString().trim().lowercase(Locale.ROOT) == "да")
+                    intent.putExtra("action", action)
+                    intent.putExtra("name", editName.text.toString().trim())
+                    intent.putExtra("directions", editDirections.text.toString().trim())
+                    intent.putExtra("number", editNumber.text.toString().trim().toInt())
+                    intent.putExtra("email", editEmail.text.toString().trim())
+                    intent.putExtra("dateOfFoundation", editDateOfFoundation.text.toString().trim())
+                    intent.putExtra("students", editStudents.text.toString().trim().toInt())
+                    if (editIsHaveDistanceLearning.text.toString().trim().lowercase(Locale.ROOT) == "да")
                     {
-                        intent.putExtra("isCargo", 1)
+                        intent.putExtra("isHaveDistanceLearning", 1)
                     }
                     else
                     {
-                        intent.putExtra("isCargo", 0)
+                        intent.putExtra("isHaveDistanceLearning", 0)
                     }
                     intent.putExtra("comment", editComment.text.toString().trim())
                     setResult(RESULT_OK, intent)
@@ -105,7 +107,7 @@ class EditFacultyActivity : AppCompatActivity()
             {
                 val toast = Toast.makeText(
                     applicationContext,
-                    "Поле \"Грузовой:\" поддерживает только " +
+                    "Поле \"${R.string.is_complicated}\" поддерживает только " +
                             "значения \"да\" или \"нет\"!",
                     Toast.LENGTH_SHORT)
                 toast.show()
