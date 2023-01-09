@@ -15,7 +15,7 @@ class MyDialogFragmentDelFaculty: DialogFragment()
         builder.setMessage("Будет удален факультет: $facultyName")
             .setTitle("Внимание!")
             .setPositiveButton("Ок"
-            ) { _, _ -> (activity as MainActivity?)?.delTask() }
+            ) { _, _ -> (activity as MainActivity?)?.delFaculty() }
             .setNegativeButton("Отмена") { _, _ -> }
         return builder.create()
     }

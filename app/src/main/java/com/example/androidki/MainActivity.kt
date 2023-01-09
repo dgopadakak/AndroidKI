@@ -302,7 +302,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun delTask()
+    fun delFaculty()
     {
         connection.sendDataToServer("d$currentUniversityID,$currentFacultyID")
         waitingForUpdate = true
