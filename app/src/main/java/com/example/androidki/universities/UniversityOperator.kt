@@ -151,26 +151,30 @@ class UniversityOperator
 
         if (sortIndex == 4)
         {
-            val tempArrayListOfTasksTimeForSolve: ArrayList<String> = ArrayList()
-            val tempArrayListOfFaculties: ArrayList<Faculty> = ArrayList()
+            val tempArrayListOfTasksNumOfParticipants: ArrayList<GregorianCalendar> = ArrayList()
+            val tempArrayListOfTours: ArrayList<Faculty> = ArrayList()
             for (i in universities[universityIndex].listOfFaculties)
             {
-                tempArrayListOfTasksTimeForSolve.add(i.dateOfFoundation.lowercase(Locale.ROOT))
+                val d: List<String> = i.dateOfFoundation.split(".")
+                tempArrayListOfTasksNumOfParticipants.add(GregorianCalendar(d[2].toInt(),
+                    d[1].toInt(), d[0].toInt()))
             }
-            tempArrayListOfTasksTimeForSolve.sort()
-            for (i in tempArrayListOfTasksTimeForSolve)
+            tempArrayListOfTasksNumOfParticipants.sort()
+            for (i in tempArrayListOfTasksNumOfParticipants)
             {
                 for (j in universities[universityIndex].listOfFaculties)
                 {
-                    if (i == j.dateOfFoundation.lowercase(Locale.ROOT)
-                        && !tempArrayListOfFaculties.contains(j))
+                    val d: List<String> = j.dateOfFoundation.split(".")
+                    val tempGregorianCalendar = GregorianCalendar(d[2].toInt(), d[1].toInt(),
+                        d[0].toInt())
+                    if (i == tempGregorianCalendar && !tempArrayListOfTours.contains(j))
                     {
-                        tempArrayListOfFaculties.add(j)
+                        tempArrayListOfTours.add(j)
                         break
                     }
                 }
             }
-            universities[universityIndex].listOfFaculties = tempArrayListOfFaculties
+            universities[universityIndex].listOfFaculties = tempArrayListOfTours
         }
 
         if (sortIndex == 5)
