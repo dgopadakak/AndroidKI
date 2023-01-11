@@ -42,6 +42,7 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
     private lateinit var textViewComment: TextView
     private lateinit var buttonDel: Button
     private lateinit var buttonEdit: Button
+    private lateinit var buttonCheckAllDirections: Button
     private lateinit var buttonOk: Button
     private lateinit var textViewCurrSort: TextView
 
@@ -69,6 +70,7 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
         textViewComment = view.findViewById(R.id.textViewComment)
         buttonDel = view.findViewById(R.id.button_details_delete)
         buttonEdit = view.findViewById(R.id.button_details_edit)
+        buttonCheckAllDirections = view.findViewById(R.id.button_check_directions)
         buttonOk = view.findViewById(R.id.button_details_ok)
         textViewCurrSort = view.findViewById(R.id.textViewCurrentSort)
 
@@ -91,6 +93,7 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
 
         buttonDel.setOnClickListener { returnDel() }
         buttonEdit.setOnClickListener { returnEdit() }
+        buttonCheckAllDirections.setOnClickListener { returnCheckDirections() }
         buttonOk.setOnClickListener { returnIdForSort() }
 
         val arguments: Bundle = getArguments()
@@ -187,6 +190,12 @@ class FacultyDetailsDialogFragment: android.app.DialogFragment()
     private fun returnEdit()
     {
         currentIdForSort = 9
+        returnIdForSort()
+    }
+
+    private fun returnCheckDirections()
+    {
+        currentIdForSort = 10
         returnIdForSort()
     }
 }

@@ -179,18 +179,30 @@ class UniversityOperator
 
         if (sortIndex == 5)
         {
-            val tempArrayListOfTasksMaxScore: ArrayList<Int> = ArrayList()
+            val tempArrayListOfAllStudents: ArrayList<Int> = ArrayList()
             val tempArrayListOfFaculties: ArrayList<Faculty> = ArrayList()
             for (i in universities[universityIndex].listOfFaculties)
             {
-                tempArrayListOfTasksMaxScore.add(i.students)
+                val tempListOfStrings: List<String> = i.students.split(", ")
+                var numOfAllStudents = 0
+                for (j in tempListOfStrings)
+                {
+                    numOfAllStudents += j.toInt()
+                }
+                tempArrayListOfAllStudents.add(numOfAllStudents)
             }
-            tempArrayListOfTasksMaxScore.sort()
-            for (i in tempArrayListOfTasksMaxScore)
+            tempArrayListOfAllStudents.sort()
+            for (i in tempArrayListOfAllStudents)
             {
                 for (j in universities[universityIndex].listOfFaculties)
                 {
-                    if (i == j.students && !tempArrayListOfFaculties.contains(j))
+                    val tempListOfStrings: List<String> = j.students.split(", ")
+                    var numOfAllStudents = 0
+                    for (k in tempListOfStrings)
+                    {
+                        numOfAllStudents += k.toInt()
+                    }
+                    if (i == numOfAllStudents && !tempArrayListOfFaculties.contains(j))
                     {
                         tempArrayListOfFaculties.add(j)
                         break

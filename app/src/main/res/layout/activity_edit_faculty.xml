@@ -203,7 +203,7 @@
             android:autofillHints=""
             android:ems="7"
             android:hint="@string/max_score_hint"
-            android:inputType="number"
+            android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/textViewPeopleTitleEdit"

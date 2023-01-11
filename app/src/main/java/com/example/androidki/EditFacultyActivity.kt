@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditFacultyActivity : AppCompatActivity()
 {
@@ -73,26 +74,37 @@ class EditFacultyActivity : AppCompatActivity()
             {
                 if (isDateValid(editDateOfFoundation.text.toString().trim()))
                 {
-                    val intent = Intent(this@EditFacultyActivity,
-                        MainActivity::class.java)
-                    intent.putExtra("action", action)
-                    intent.putExtra("name", editName.text.toString().trim())
-                    intent.putExtra("directions", editDirections.text.toString().trim())
-                    intent.putExtra("number", editNumber.text.toString().trim().toInt())
-                    intent.putExtra("email", editEmail.text.toString().trim())
-                    intent.putExtra("dateOfFoundation", editDateOfFoundation.text.toString().trim())
-                    intent.putExtra("students", editStudents.text.toString().trim().toInt())
-                    if (editIsHaveDistanceLearning.text.toString().trim().lowercase(Locale.ROOT) == "да")
+                    if(isNumOfStudentsValid(editStudents.text.toString().trim()))
                     {
-                        intent.putExtra("isHaveDistanceLearning", 1)
+                        val intent = Intent(this@EditFacultyActivity,
+                            MainActivity::class.java)
+                        intent.putExtra("action", action)
+                        intent.putExtra("name", editName.text.toString().trim())
+                        intent.putExtra("directions", editDirections.text.toString().trim())
+                        intent.putExtra("number", editNumber.text.toString().trim().toInt())
+                        intent.putExtra("email", editEmail.text.toString().trim())
+                        intent.putExtra("dateOfFoundation", editDateOfFoundation.text.toString().trim())
+                        intent.putExtra("students", editStudents.text.toString().trim())
+                        if (editIsHaveDistanceLearning.text.toString().trim().lowercase(Locale.ROOT) == "да")
+                        {
+                            intent.putExtra("isHaveDistanceLearning", 1)
+                        }
+                        else
+                        {
+                            intent.putExtra("isHaveDistanceLearning", 0)
+                        }
+                        intent.putExtra("comment", editComment.text.toString().trim())
+                        setResult(RESULT_OK, intent)
+                        finish()
                     }
                     else
                     {
-                        intent.putExtra("isHaveDistanceLearning", 0)
+                        val toast = Toast.makeText(
+                            applicationContext,
+                            "Проверьте кол-во студентов!",
+                            Toast.LENGTH_SHORT)
+                        toast.show()
                     }
-                    intent.putExtra("comment", editComment.text.toString().trim())
-                    setResult(RESULT_OK, intent)
-                    finish()
                 }
                 else
                 {
@@ -133,6 +145,24 @@ class EditFacultyActivity : AppCompatActivity()
             if (date != null)
             {
                 myFormat.parse(date)
+            }
+            true
+        }
+        catch (e: Exception)
+        {
+            false
+        }
+    }
+
+    private fun isNumOfStudentsValid(s: String): Boolean
+    {
+        return try
+        {
+            val sl = s.split(", ")
+            val sli: ArrayList<Int> = ArrayList()
+            for (i in sl)
+            {
+                sli.add(i.toInt())
             }
             true
         }

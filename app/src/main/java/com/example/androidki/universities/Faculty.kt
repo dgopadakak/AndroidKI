@@ -6,7 +6,7 @@ data class Faculty(
     val num: Int,
     val email: String,
     val dateOfFoundation: String,
-    val students: Int,
+    val students: String,
     val isHaveDistanceLearning: Int,
     val comment: String
 )

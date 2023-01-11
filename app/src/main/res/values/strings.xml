@@ -12,6 +12,8 @@
     <string name="button_cancel">Отмена</string>
     <string name="button_del">Удалить</string>
     <string name="button_edit">Изменить</string>
+    <string name="button_check_all_directions">Посмотреть направления</string>
+    <string name="button_back">Назад</string>
     <string name="name_hint">Название</string>
     <string name="hint_hint">Направления</string>
     <string name="num_hint">Номер</string>
@@ -20,6 +22,7 @@
     <string name="max_score_hint">Кол-во человек</string>
     <string name="is_complicated_hint">Да/Нет</string>
     <string name="condition_hint">Введите описание</string>
+    <string name="students_num_direction_title">Студентов на направлении:</string>
     <string name="plus_button_description">Добавить факультет</string>
     <string name="plus">➕</string>
 </resources>

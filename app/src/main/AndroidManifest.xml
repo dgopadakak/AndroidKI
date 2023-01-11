@@ -18,6 +18,9 @@
         android:theme="@style/Theme.AndroidKI"
         tools:targetApi="31">
         <activity
+            android:name=".DirectionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditFacultyActivity"
             android:exported="false" />
         <activity

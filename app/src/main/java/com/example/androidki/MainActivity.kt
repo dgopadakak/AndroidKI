@@ -21,7 +21,7 @@ import com.example.androidki.universities.dbWithRoom.UniversityOperatorDao
 import com.example.androidki.universities.dbWithRoom.App
 import com.example.androidki.universities.dbWithRoom.AppDatabase
 import com.example.androidki.databinding.ActivityMainBinding
-import com.example.androidki.forRecyclerView.CustomRecyclerAdapterForExams
+import com.example.androidki.forRecyclerView.CustomRecyclerAdapterForFaculties
 import com.example.androidki.forRecyclerView.RecyclerItemClickListener
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var nv: NavigationView
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
     private lateinit var progressBar: ProgressBar
-    private lateinit var recyclerViewPlanes: RecyclerView
+    private lateinit var recyclerViewFaculties: RecyclerView
 
     private var unO: UniversityOperator = UniversityOperator()
     private var currentUniversityID: Int = -1
@@ -76,22 +76,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar.apply { setNavigationIcon(R.drawable.ic_my_menu) }
         toolbar.setNavigationOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
         progressBar = findViewById(R.id.progressBar)
-        recyclerViewPlanes = findViewById(R.id.recyclerViewExams)
-        recyclerViewPlanes.visibility = View.INVISIBLE
-        recyclerViewPlanes.layoutManager = LinearLayoutManager(this)
+        recyclerViewFaculties = findViewById(R.id.recyclerViewExams)
+        recyclerViewFaculties.visibility = View.INVISIBLE
+        recyclerViewFaculties.layoutManager = LinearLayoutManager(this)
 
-        recyclerViewPlanes.addOnItemTouchListener(
+        recyclerViewFaculties.addOnItemTouchListener(
             RecyclerItemClickListener(
-                recyclerViewPlanes,
+                recyclerViewFaculties,
                 object : RecyclerItemClickListener.OnItemClickListener
                 {
                     override fun onItemClick(view: View, position: Int)
                     {
                         currentFacultyID = position
+                        val tempStudentsList = unO.getFaculty(currentUniversityID, currentFacultyID)
+                            .students.split(", ")
+                        var tempStudentsNum = 0
+                        for (i in tempStudentsList)
+                        {
+                            tempStudentsNum += i.toInt()
+                        }
                         val toast = Toast.makeText(
                             applicationContext,
-                            "Студентов: ${unO.getFaculty(currentUniversityID, currentFacultyID)
-                                .students}",
+                            "Студентов: $tempStudentsNum",
                             Toast.LENGTH_SHORT
                         )
                         toast.show()
@@ -99,21 +105,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     override fun onItemLongClick(view: View, position: Int)
                     {
                         currentFacultyID = position
-                        val examDetails = FacultyDetailsDialogFragment()
-                        val tempExam = unO.getFaculty(currentUniversityID, currentFacultyID)
+                        val facultyDetails = FacultyDetailsDialogFragment()
+                        val tempFaculty = unO.getFaculty(currentUniversityID, currentFacultyID)
+                        var tempNumOfAllStudents = 0
+                        val tempListOfStrings: List<String> = tempFaculty.students
+                            .split(", ")
+                        for (i in tempListOfStrings)
+                        {
+                            tempNumOfAllStudents += i.toInt()
+                        }
                         val bundle = Bundle()
-                        bundle.putString("name", tempExam.name)
-                        bundle.putString("directions", tempExam.directions)
-                        bundle.putString("number", tempExam.num.toString())
-                        bundle.putString("email", tempExam.email)
-                        bundle.putString("dateOfFoundation", tempExam.dateOfFoundation)
-                        bundle.putString("students", tempExam.students.toString())
-                        bundle.putString("isHaveDistanceLearning", tempExam.
+                        bundle.putString("name", tempFaculty.name)
+                        bundle.putString("directions", tempFaculty.directions)
+                        bundle.putString("number", tempFaculty.num.toString())
+                        bundle.putString("email", tempFaculty.email)
+                        bundle.putString("dateOfFoundation", tempFaculty.dateOfFoundation)
+                        bundle.putString("students", tempNumOfAllStudents.toString())
+                        bundle.putString("isHaveDistanceLearning", tempFaculty.
                         isHaveDistanceLearning.toString())
-                        bundle.putString("comment", tempExam.comment)
+                        bundle.putString("comment", tempFaculty.comment)
                         bundle.putString("connection", connectionStage.toString())
-                        examDetails.arguments = bundle
-                        examDetails.show(fragmentManager, "MyCustomDialog")
+                        facultyDetails.arguments = bundle
+                        facultyDetails.show(fragmentManager, "MyCustomDialog")
                     }
                 }
             )
@@ -274,7 +287,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 waitingForUpdate = false
                 if (currentUniversityID != -1)
                 {
-                    recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
+                    recyclerViewFaculties.adapter = CustomRecyclerAdapterForFaculties(
                         unO.getFacultiesNames(currentUniversityID)
                     )
                 }
@@ -296,9 +309,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar.title = airlineTitle
         invalidateOptionsMenu()
         currentUniversityID = item.itemId
-        recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
+        recyclerViewFaculties.adapter = CustomRecyclerAdapterForFaculties(
             unO.getFacultiesNames(currentUniversityID))
-        recyclerViewPlanes.visibility = View.VISIBLE
+        recyclerViewFaculties.visibility = View.VISIBLE
         return true
     }
 
@@ -341,21 +354,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         if (sortId == 9)        // Изменение
         {
-            val tempTask = unO.getFaculty(currentUniversityID, currentFacultyID)
+            val tempFaculty = unO.getFaculty(currentUniversityID, currentFacultyID)
             val intent = Intent()
             intent.setClass(this, EditFacultyActivity::class.java)
             intent.putExtra("action", 2)
-            intent.putExtra("name", tempTask.name)
-            intent.putExtra("directions", tempTask.directions)
-            intent.putExtra("number", tempTask.num.toString())
-            intent.putExtra("email", tempTask.email)
-            intent.putExtra("dateOfFoundation", tempTask.dateOfFoundation)
-            intent.putExtra("students", tempTask.students.toString())
-            intent.putExtra("isHaveDistanceLearning", tempTask.isHaveDistanceLearning.toString())
-            intent.putExtra("comment", tempTask.comment)
+            intent.putExtra("name", tempFaculty.name)
+            intent.putExtra("directions", tempFaculty.directions)
+            intent.putExtra("number", tempFaculty.num.toString())
+            intent.putExtra("email", tempFaculty.email)
+            intent.putExtra("dateOfFoundation", tempFaculty.dateOfFoundation)
+            intent.putExtra("students", tempFaculty.students)
+            intent.putExtra("isHaveDistanceLearning", tempFaculty.isHaveDistanceLearning.toString())
+            intent.putExtra("comment", tempFaculty.comment)
             startActivityForResult(intent, 1)
         }
-        recyclerViewPlanes.adapter = CustomRecyclerAdapterForExams(
+        if (sortId == 10)
+        {
+            val tempFaculty = unO.getFaculty(currentUniversityID, currentFacultyID)
+            val intent = Intent()
+            intent.setClass(this, DirectionsActivity::class.java)
+            intent.putExtra("directions", tempFaculty.directions)
+            intent.putExtra("students", tempFaculty.students)
+            startActivity(intent)
+        }
+        recyclerViewFaculties.adapter = CustomRecyclerAdapterForFaculties(
             unO.getFacultiesNames(currentUniversityID))
     }
 
@@ -366,16 +388,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (resultCode == RESULT_OK)
         {
             val action = data?.getSerializableExtra("action") as Int
-            val examName = data.getSerializableExtra("name") as String
-            val teacherName = data.getSerializableExtra("directions") as String
-            val auditory = data.getSerializableExtra("number") as Int
-            val date = data.getSerializableExtra("email") as String
-            val time = data.getSerializableExtra("dateOfFoundation") as String
-            val people = data.getSerializableExtra("students") as Int
-            val abstract = data.getSerializableExtra("isHaveDistanceLearning") as Int
+            val facultyName = data.getSerializableExtra("name") as String
+            val directionsNames = data.getSerializableExtra("directions") as String
+            val facultyNum = data.getSerializableExtra("number") as Int
+            val facultyEmail = data.getSerializableExtra("email") as String
+            val dateOfFoundation = data.getSerializableExtra("dateOfFoundation") as String
+            val students = data.getSerializableExtra("students") as String
+            val isHaveDL = data.getSerializableExtra("isHaveDistanceLearning") as Int
             val comment = data.getSerializableExtra("comment") as String
-            val tempFaculty = Faculty(examName, teacherName, auditory, date, time, people
-                , abstract, comment)
+            val tempFaculty = Faculty(facultyName, directionsNames, facultyNum, facultyEmail,
+                dateOfFoundation, students, isHaveDL, comment)
             val tempPlaneJSON: String = gson.toJson(tempFaculty)
 
             if (action == 1)
