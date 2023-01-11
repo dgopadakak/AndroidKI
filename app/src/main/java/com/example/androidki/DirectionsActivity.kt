@@ -2,6 +2,7 @@ package com.example.androidki
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidki.forRecyclerView.CustomRecyclerAdapterForDirections
@@ -9,6 +10,7 @@ import com.example.androidki.forRecyclerView.CustomRecyclerAdapterForDirections
 class DirectionsActivity : AppCompatActivity()
 {
     private lateinit var recyclerViewDirections: RecyclerView
+    private lateinit var buttonBack: Button
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -45,5 +47,8 @@ class DirectionsActivity : AppCompatActivity()
         recyclerViewDirections.adapter = CustomRecyclerAdapterForDirections(
             directionsList, studentsList
         )
+
+        buttonBack = findViewById(R.id.button_back_from_directions)
+        buttonBack.setOnClickListener { finish() }
     }
 }
