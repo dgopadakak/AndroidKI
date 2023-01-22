@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
@@ -51,6 +52,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerViewFaculties: RecyclerView
+    private var resultLauncher = registerForActivityResult(
+        ActivityResultContracts
+            .StartActivityForResult())
+    { result ->
+        if (result.resultCode == Activity.RESULT_OK)
+        {
+            val data: Intent? = result.data
+            processOnActivityResult(data)
+        }
+    }
 
     private var unO: UniversityOperator = UniversityOperator()
     private var currentUniversityID: Int = -1
@@ -162,7 +173,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent()
             intent.setClass(this, EditFacultyActivity::class.java)
             intent.putExtra("action", 1)
-            startActivityForResult(intent, 1)
+            resultLauncher.launch(intent)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -366,7 +377,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             intent.putExtra("students", tempFaculty.students)
             intent.putExtra("isHaveDistanceLearning", tempFaculty.isHaveDistanceLearning.toString())
             intent.putExtra("comment", tempFaculty.comment)
-            startActivityForResult(intent, 1)
+            resultLauncher.launch(intent)
         }
         if (sortId == 10)
         {
@@ -381,38 +392,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             unO.getFacultiesNames(currentUniversityID))
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    private fun processOnActivityResult(data: Intent?)
     {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK)
-        {
-            val action = data?.getSerializableExtra("action") as Int
-            val facultyName = data.getSerializableExtra("name") as String
-            val directionsNames = data.getSerializableExtra("directions") as String
-            val facultyNum = data.getSerializableExtra("number") as Int
-            val facultyEmail = data.getSerializableExtra("email") as String
-            val dateOfFoundation = data.getSerializableExtra("dateOfFoundation") as String
-            val students = data.getSerializableExtra("students") as String
-            val isHaveDL = data.getSerializableExtra("isHaveDistanceLearning") as Int
-            val comment = data.getSerializableExtra("comment") as String
-            val tempFaculty = Faculty(facultyName, directionsNames, facultyNum, facultyEmail,
-                dateOfFoundation, students, isHaveDL, comment)
-            val tempPlaneJSON: String = gson.toJson(tempFaculty)
+        val action = data!!.getIntExtra("action", -1)
+        val facultyName = data.getStringExtra("name")
+        val directionsNames = data.getStringExtra("directions")
+        val facultyNum = data.getIntExtra("number", -1)
+        val facultyEmail = data.getStringExtra("email")
+        val dateOfFoundation = data.getStringExtra("dateOfFoundation")
+        val students = data.getStringExtra("students")
+        val isHaveDL = data.getIntExtra("isHaveDistanceLearning", 0)
+        val comment = data.getStringExtra("comment")
+        val tempFaculty = Faculty(facultyName!!, directionsNames!!, facultyNum, facultyEmail!!,
+            dateOfFoundation!!, students!!, isHaveDL, comment!!)
+        val tempPlaneJSON: String = gson.toJson(tempFaculty)
 
-            if (action == 1)
-            {
-                val tempStringToSend = "a${unO.getUniversities()[currentUniversityID].name}#" +
-                        "#$tempPlaneJSON"
-                connection.sendDataToServer(tempStringToSend)
-                waitingForUpdate = true
-            }
-            if (action == 2)
-            {
-                val tempStringToSend = "e$currentUniversityID,$currentFacultyID##$tempPlaneJSON"
-                connection.sendDataToServer(tempStringToSend)
-                waitingForUpdate = true
-            }
+        if (action == 1)
+        {
+            val tempStringToSend = "a${unO.getUniversities()[currentUniversityID].name}#" +
+                    "#$tempPlaneJSON"
+            connection.sendDataToServer(tempStringToSend)
+            waitingForUpdate = true
+        }
+        if (action == 2)
+        {
+            val tempStringToSend = "e$currentUniversityID,$currentFacultyID##$tempPlaneJSON"
+            connection.sendDataToServer(tempStringToSend)
+            waitingForUpdate = true
+        }
+        if (action == -1)
+        {
+            val toast = Toast.makeText(
+                applicationContext,
+                "Ошибка добавления/изменения!",
+                Toast.LENGTH_SHORT)
+            toast.show()
         }
     }
 }
