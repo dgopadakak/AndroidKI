@@ -36,20 +36,20 @@ class EditFacultyActivity : AppCompatActivity()
         editIsHaveDistanceLearning = findViewById(R.id.editTextAbstract)
         editComment = findViewById(R.id.editTextComment)
 
-        val action = intent.getSerializableExtra("action") as Int
+        val action = intent.getIntExtra("action", 1)
 
         findViewById<Button>(R.id.button_confirm).setOnClickListener { confirmChanges(action) }
 
         if (action == 2)
         {
-            editName.setText(intent.getSerializableExtra("name") as String)
-            editDirections.setText(intent.getSerializableExtra("directions") as String)
-            editNumber.setText(intent.getSerializableExtra("number") as String)
-            editEmail.setText(intent.getSerializableExtra("email") as String)
-            editDateOfFoundation.setText(intent.getSerializableExtra("dateOfFoundation")
+            editName.setText(intent.getStringExtra("name") as String)
+            editDirections.setText(intent.getStringExtra("directions") as String)
+            editNumber.setText(intent.getStringExtra("number") as String)
+            editEmail.setText(intent.getStringExtra("email") as String)
+            editDateOfFoundation.setText(intent.getStringExtra("dateOfFoundation")
                     as String)
-            editStudents.setText(intent.getSerializableExtra("students") as String)
-            if (intent.getSerializableExtra("isHaveDistanceLearning") as String == "1")
+            editStudents.setText(intent.getStringExtra("students") as String)
+            if (intent.getStringExtra("isHaveDistanceLearning") as String == "1")
             {
                 editIsHaveDistanceLearning.setText("да")
             }
@@ -57,7 +57,7 @@ class EditFacultyActivity : AppCompatActivity()
             {
                 editIsHaveDistanceLearning.setText("нет")
             }
-            editComment.setText(intent.getSerializableExtra("comment") as String)
+            editComment.setText(intent.getStringExtra("comment") as String)
         }
     }
 
